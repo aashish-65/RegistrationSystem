@@ -2,9 +2,9 @@ const userModel = require("../models/userModel");
 
 exports.register = async (req, res) => {
   try {
-    const { name, email, collegeId, department } = req.body;
+    const { name, collegeEmail, collegeId, year, department, contactNumber, whatsappNumber } = req.body;
 
-    if (!name || !email || !collegeId || !department) {
+    if (!name || !collegeEmail || !collegeId || !year || !department || !contactNumber || !whatsappNumber) {
       return res
         .status(400)
         .json({ message: "Please provide all the required fields" });
@@ -17,7 +17,7 @@ exports.register = async (req, res) => {
         .json({ message: "User with this Id already exists" });
     }
 
-    const user = new userModel({ name, email, collegeId, department });
+    const user = new userModel({ name, collegeEmail, collegeId, year, department, contactNumber, whatsappNumber });
     await user.save();
     res.status(201).json({ message: "User created successfully" });
   } catch (error) {
@@ -38,10 +38,24 @@ exports.getUser = async (req, res) => {
   const {id}  = req.params;
   try {
     const user = await userModel.findOne({ collegeId: id });
-    if(user.isPresent){
-        return res.status(200).json({message: "Duplicate Entry", user});
-    }
     if (user) {
+        res.status(200).json({message: "USER FOUND", user});
+    } else {
+        res.status(404).json({ message: "USER NOT FOUND" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+exports.scanUser = async (req, res) => {
+  const {id}  = req.params;
+  try {
+    const user = await userModel.findOne({ collegeId: id });
+    if (user) {
+      if(user.isPresent){
+          return res.status(200).json({message: "Duplicate Entry", user});
+      }
         user.isPresent = true;
         await user.save();
         res.status(200).json({message: "true", user});
@@ -56,9 +70,9 @@ exports.getUser = async (req, res) => {
 exports.updateUser = async (req, res) => {
   const { id } = req.params;
   const updatedUser = req.body;
-  const { name, email, department } = updatedUser;
+  const { name, collegeEmail, year, department, contactNumber, whatsappNumber } = updatedUser;
 
-  if (!name || !email|| !department) {
+  if (!name || !collegeEmail || !year || !department || !contactNumber || !whatsappNumber) {
     return res
       .status(400)
       .json({ message: "Please provide all the required fields" });
