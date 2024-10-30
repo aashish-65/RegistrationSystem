@@ -6,16 +6,28 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    email: {
+    collegeEmail: {
         type: String,
         required: true
     },
     collegeId: {
+        type: Number,
+        required: true
+    },
+    year: {
         type: String,
         required: true
     },
     department: {
         type: String,
+        required: true
+    },
+    contactNumber: {
+        type: Number,
+        required: true
+    },
+    whatsappNumber: {
+        type: Number,
         required: true
     },
     isPresent:{
