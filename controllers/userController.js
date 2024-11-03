@@ -126,7 +126,7 @@ exports.sendEmail = async (req, res) => {
     const emailHtml = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px; background-color: #f9f9f9;">
         <div style="text-align: center; padding: 10px 0;">
-          <img src="https://barcode-qr-scanner.onrender.com/web-app-manifest-192x192.png" alt="CodeNEST Logo" style="width: 80px; height: auto; margin-bottom: 10px;">
+          <img src="https://codenestnshm.netlify.app/web-app-manifest-192x192.png" alt="CodeNEST Logo" style="width: 80px; height: auto; margin-bottom: 10px;">
         </div>
         <h2 style="text-align: center; color: #333; font-size: 24px;">Welcome to CodeNEST!</h2>
         
@@ -145,7 +145,7 @@ exports.sendEmail = async (req, res) => {
         </p>
         
         <div style="margin-top: 30px; text-align: center;">
-          <a href="https://barcode-qr-scanner.onrender.com/" style="display: inline-block; padding: 10px 20px; font-size: 16px; color: #fff; background-color: #0073e6; text-decoration: none; border-radius: 5px;">Visit Our Website</a>
+          <a href="https://codenestnshm.netlify.app" style="display: inline-block; padding: 10px 20px; font-size: 16px; color: #fff; background-color: #0073e6; text-decoration: none; border-radius: 5px;">Visit Our Website</a>
         </div>
         
         <hr style="border: none; border-top: 1px solid #e0e0e0; margin-top: 30px; margin-bottom: 10px;">
