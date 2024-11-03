@@ -8,6 +8,6 @@ router.get('/users/:id', userControllers.getUser);
 router.get('/users/scan/:id', userControllers.scanUser);
 router.put('/users/update/:id', userControllers.updateUser);
 router.delete('/users/delete/:id', userControllers.deleteUser);
-
+router.post('/send-email', userControllers.sendEmail);
 
 module.exports = router;
