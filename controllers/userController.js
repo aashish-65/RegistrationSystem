@@ -6,21 +6,40 @@ exports.register = async (req, res) => {
     const { name, collegeEmail, collegeId, year, department, contactNumber, whatsappNumber } = req.body;
 
     if (!name || !collegeEmail || !collegeId || !year || !department || !contactNumber || !whatsappNumber) {
-      return res
-        .status(400)
-        .json({ message: "Please provide all the required fields" });
+      return res.status(400).json({ message: "Please provide all the required fields" });
     }
 
-    const existingUser = await userModel.findOne({ collegeId })
-    if (existingUser) {
-      return res
-        .status(400)
-        .json({ message: "User with this Id already exists" });
+    const emailDomain = "@nshm.edu.in";
+    if (!collegeEmail.endsWith(emailDomain)) {
+      return res.status(400).json({ message: `Email must end with ${emailDomain}` });
+    }
+
+    if (!/^\d{11}$/.test(collegeId)) {
+      return res.status(400).json({ message: "College ID must be exactly 11 digits" });
+    }
+
+    if (!/^\d{10}$/.test(contactNumber)) {
+      return res.status(400).json({ message: "Contact numbers must be exactly 10 digits" });
+    }
+
+    if (!/^\d{10}$/.test(whatsappNumber)) {
+      return res.status(400).json({ message: "WhatsApp numbers must be exactly 10 digits" });
+    }
+
+    const existingEmail = await userModel.findOne({ collegeEmail });
+    if (existingEmail) {
+      return res.status(400).json({ message: "User with this email already exists" });
+    }
+
+    const existingId = await userModel.findOne({ collegeId });
+    if (existingId) {
+      return res.status(400).json({ message: "User with this ID already exists" });
     }
 
     const user = new userModel({ name, collegeEmail, collegeId, year, department, contactNumber, whatsappNumber });
     await user.save();
     res.status(201).json({ message: "User created successfully" });
+
   } catch (error) {
     res.status(500).json({ message: "Internal server error" });
   }
