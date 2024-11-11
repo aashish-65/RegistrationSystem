@@ -1,6 +1,57 @@
 const userModel = require("../models/userModel");
 const nodemailer = require("nodemailer");
+const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 
+const AES_SECRET = Buffer.from(process.env.AES_SECRET, "utf8");
+const AES_IV = Buffer.from(process.env.AES_IV, "utf8");
+
+function encryptToken(token) {
+  const cipher = crypto.createCipheriv("aes-128-cbc", AES_SECRET, AES_IV);
+  let encrypted = cipher.update(token, "utf8", "hex");
+  encrypted += cipher.final("hex");
+  return encrypted;
+}
+
+function decryptToken(encryptedToken) {
+  const decipher = crypto.createDecipheriv("aes-128-cbc", AES_SECRET, AES_IV);
+  let decrypted = decipher.update(encryptedToken, "hex", "utf8");
+  decrypted += decipher.final("utf8");
+  return decrypted;
+}
+
+exports.sendJWTToken = async function generateTokenForExistingUsers(req, res) {
+  try {
+    // Find users who don't have a token field or it's empty
+    const usersWithoutToken = await userModel.find({ token: { $exists: false } });
+
+    if (usersWithoutToken.length === 0) {
+      console.log("All users already have a token.");
+      res.status(200).json({ message: "All users already have a token." });
+      return;
+    }
+
+    // Loop through each user and generate a token
+    for (let user of usersWithoutToken) {
+      const tokenPayload = { collegeId: user.collegeId, name: user.name, collegeEmail: user.collegeEmail };
+      const token = jwt.sign(tokenPayload, process.env.JWT_SECRET);
+      const encryptedToken = encryptToken(token);
+
+      // Update the user with the generated token
+      user.token = encryptedToken;
+      await user.save();
+
+      console.log(`Token generated for user: ${user.name} (${user.collegeId})`);
+      res.status(200).json({ message: `Token generated for user: ${user.name} (${user.collegeId})` });
+    }
+
+    console.log("Token generation and update complete for all users without a token.");
+    res.status(200).json({ message: "Token generation and update complete for all users without a token." });
+  } catch (error) {
+    console.error("Error generating token for existing users:", error.message);
+    res.status(500).json({ message: "Error generating token for existing users" });
+  }
+}
 exports.register = async (req, res) => {
   try {
     const { name, collegeEmail, collegeId, year, department, contactNumber, whatsappNumber } = req.body;
@@ -36,12 +87,20 @@ exports.register = async (req, res) => {
       return res.status(400).json({ message: "User with this ID already exists" });
     }
 
-    const user = new userModel({ name, collegeEmail, collegeId, year, department, contactNumber, whatsappNumber });
-    await user.save();
-    res.status(201).json({ message: "User created successfully" });
+    // Step 1: Generate JWT
+    const tokenPayload = { collegeId, name, collegeEmail };
+    const token = jwt.sign(tokenPayload, process.env.JWT_SECRET);
+
+    // Step 2: Encrypt the JWT
+    const encryptedToken = encryptToken(token);
+
+    const newUser = new userModel({ name, collegeEmail, collegeId, year, department, contactNumber, whatsappNumber, token: encryptedToken });
+    await newUser.save();
+    res.status(201).json({ message: "User created successfully", newUser,
+      token: encryptedToken, });
 
   } catch (error) {
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ message: "Internal server error" , error: error.message});
   }
 };
 
@@ -84,6 +143,42 @@ exports.scanUser = async (req, res) => {
     }
   } catch (error) {
     res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+exports.verifyUser = async (req, res) => {
+  const { encryptedToken } = req.query;
+  
+  try {
+    if (!encryptedToken) {
+      return res.status(400).json({ message: "Encrypted token is required." });
+    }
+
+    const decryptedToken = decryptToken(encryptedToken);
+
+    jwt.verify(decryptedToken, process.env.JWT_SECRET, async (err, decoded) => {
+      if (err) {
+        return res.status(401).json({ message: "Invalid or expired token." });
+      }
+
+      const { collegeEmail } = decoded;
+
+      const user = await userModel.findOne({ collegeEmail });
+      if (!user) {
+        return res.status(404).json({ message: "User not found." });
+      }
+
+      if (user.isPresent) {
+        return res.status(200).json({ message: "Duplicate entry", user });
+      }
+
+      user.isPresent = true;
+      await user.save();
+
+      res.status(200).json({ message: "User checked in successfully", user });
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error", error: error.message });
   }
 };
 

@@ -30,6 +30,10 @@ const userSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    token: {
+        type: String,
+        required: true
+    },
     isPresent:{
         type: Boolean,
         default: false
