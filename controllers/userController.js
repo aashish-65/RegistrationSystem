@@ -147,7 +147,7 @@ exports.scanUser = async (req, res) => {
 };
 
 exports.verifyUser = async (req, res) => {
-  const { encryptedToken } = req.query;
+  const { encryptedToken } = req.params;
   
   try {
     if (!encryptedToken) {
