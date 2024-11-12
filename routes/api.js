@@ -12,5 +12,6 @@ router.put('/users/update/:id', userControllers.updateUser);
 router.delete('/users/delete/:id', userControllers.deleteUser);
 router.post('/send-email', userControllers.sendEmail);
 router.get('/send-jwt-token', userControllers.sendJWTToken);
+router.get('/qr-generate/:encryptedToken',userControllers.generateQRCode)
 
 module.exports = router;
