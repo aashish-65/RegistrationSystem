@@ -356,7 +356,7 @@ exports.sendEmail = async (req, res) => {
       
       <!-- Event Date Highlight with Calendar Icon -->
       <div style="text-align: center; padding: 30px 20px; background-color: #e6f4ff; border-radius: 10px; margin-bottom: 20px;">
-        <h3 style="color: #e63946; font-size: 32px; font-weight: bold; margin-bottom: 5px;">📅 Save the Date!</h3>
+        <h3 style="color: #e63946; font-size: 32px; font-weight: bold; margin-bottom: 5px;">Save the Date!</h3>
         <p style="font-size: 26px; font-weight: bold; color: #0073e6;">20th November 2024</p>
         <p style="font-size: 20px; color: #555;">Starting at 10:00 AM</p>
       </div>
@@ -365,7 +365,7 @@ exports.sendEmail = async (req, res) => {
       <div style="text-align: center; margin-bottom: 20px;">
         <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=CodeNEST+Event&dates=20241120T043000Z/20241120T063000Z&details=Join+us+for+the+grand+inauguration+event+at+CodeNEST!&location=NSHM+Knowledge+Campus,+Durgapur&sf=true&output=xml" 
            target="_blank" style="display: inline-block; padding: 12px 24px; font-size: 16px; color: #fff; background-color: #ff9900; text-decoration: none; border-radius: 50px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-          📅 Add to Google Calendar
+          Add to Google Calendar
         </a>
       </div>
   
@@ -383,7 +383,7 @@ exports.sendEmail = async (req, res) => {
       <!-- Contact Us Section -->
       <div style="text-align: center; background-color: #ffffff; padding: 20px; border-radius: 10px;">
         <p style="font-size: 14px; color: #555;">
-          Have any questions? 📧 Reach us at 
+          Have any questions? <br>📧 Reach us at 
           <a href="mailto:connectcodenest@gmail.com" style="color: #0073e6; text-decoration: none; font-weight: bold;">connectcodenest@gmail.com</a>.
         </p>
       </div>
