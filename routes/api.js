@@ -10,6 +10,7 @@ router.get('/users/verify/:encryptedToken', userControllers.verifyUser);
 router.get('/registrations/count', userControllers.getRegistrationCount);
 router.put('/users/update/:id', userControllers.updateUser);
 router.delete('/users/delete/:id', userControllers.deleteUser);
+router.delete('/users/delete-all', userControllers.deleteAllUsers);
 router.post('/send-email', userControllers.sendEmail);
 router.get('/send-jwt-token', userControllers.sendJWTToken);
 router.get('/qr-generate/:encryptedToken',userControllers.generateQRCode)

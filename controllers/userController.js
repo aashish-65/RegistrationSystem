@@ -49,11 +49,11 @@ exports.sendJWTToken = async function generateTokenForExistingUsers(req, res) {
       await user.save();
 
       console.log(`Token generated for user: ${user.name} (${user.collegeId})`);
-      res
-        .status(200)
-        .json({
-          message: `Token generated for user: ${user.name} (${user.collegeId})`,
-        });
+      // res
+      //   .status(200)
+      //   .json({
+      //     message: `Token generated for user: ${user.name} (${user.collegeId})`,
+      //   });
     }
 
     console.log(
@@ -307,6 +307,15 @@ exports.deleteUser = async (req, res) => {
   }
 };
 
+exports.deleteAllUsers = async (req, res) => {
+  try {
+    await userModel.deleteMany({}); // Delete all users from the database
+    res.status(200).json({ message: "All users deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 exports.sendEmail = async (req, res) => {
   const { name, collegeEmail, qrCode } = req.body;
 
@@ -324,36 +333,67 @@ exports.sendEmail = async (req, res) => {
 
     // Enhanced HTML template with personalized greeting and improved design
     const emailHtml = `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px; background-color: #f9f9f9;">
-        <div style="text-align: center; padding: 10px 0;">
-          <img src="https://codenestnshm.netlify.app/web-app-manifest-192x192.png" alt="CodeNEST Logo" style="width: 80px; height: auto; margin-bottom: 10px;">
-        </div>
-        <h2 style="text-align: center; color: #333; font-size: 24px;">Welcome to CodeNEST!</h2>
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px; background-color: #f4f4f9;">
+      <!-- Exciting Header Section -->
+      <div style="text-align: center; background-color: #0073e6; padding: 20px; border-radius: 10px 10px 0 0;">
+        <img src="https://codenestnshm.netlify.app/web-app-manifest-192x192.png" alt="CodeNEST Logo" style="width: 80px; height: auto; border-radius: 50%;">
+        <h2 style="color: #fff; font-size: 28px; margin-top: 10px;">🎉 Welcome to CodeNEST! 🎉</h2>
+      </div>
+  
+      <!-- Greeting Message with Icon -->
+      <div style="padding: 20px; background-color: #ffffff; border-radius: 0 0 10px 10px; margin-bottom: 20px;">
+        <p style="font-size: 18px; color: #333; text-align: center;">👋 Hello ${name},</p>
         
-        <p style="font-size: 18px; color: #555; text-align: center;">Hello ${name},</p>
-        
-        <p style="font-size: 16px; color: #555; line-height: 1.6;">
-          Thank you for registering for our event! Please find below your personalized QR code, which you’ll need for verification at the event.
+        <p style="font-size: 16px; color: #555; line-height: 1.8;">
+          Thank you for registering at <strong>CodeNEST</strong>! We are thrilled to have you join us for the <strong>grand inauguration</strong> of our club. 
+          Get ready for an exciting day packed with innovation, inspiration, and networking! 🚀
         </p>
         
-        <div style="text-align: center; margin: 20px 0;">
-          <img src="cid:qrCodeImage" alt="QR Code" style="width: 150px; height: 150px; border: 1px solid #ddd; padding: 5px; border-radius: 5px;">
-        </div>
-        
-        <p style="font-size: 14px; color: #666; text-align: center;">
-          <em>Tip:</em> Keep this QR code handy and secure. We’re excited to welcome you to CodeNEST!
-        </p>
-        
-        <div style="margin-top: 30px; text-align: center;">
-          <a href="https://codenestnshm.netlify.app" style="display: inline-block; padding: 10px 20px; font-size: 16px; color: #fff; background-color: #0073e6; text-decoration: none; border-radius: 5px;">Visit Our Website</a>
-        </div>
-        
-        <hr style="border: none; border-top: 1px solid #e0e0e0; margin-top: 30px; margin-bottom: 10px;">
-        
-        <p style="text-align: center; font-size: 12px; color: #999;">
-          © ${new Date().getFullYear()} CodeNEST. All rights reserved.
+        <p style="font-size: 16px; color: #555; line-height: 1.8;">
+          Your personalized QR code is below. Please present it for verification upon arrival. We're excited to meet you in person! 😊
         </p>
       </div>
+      
+      <!-- Event Date Highlight with Calendar Icon -->
+      <div style="text-align: center; padding: 30px 20px; background-color: #e6f4ff; border-radius: 10px; margin-bottom: 20px;">
+        <h3 style="color: #e63946; font-size: 32px; font-weight: bold; margin-bottom: 5px;">📅 Save the Date!</h3>
+        <p style="font-size: 26px; font-weight: bold; color: #0073e6;">20th November 2024</p>
+        <p style="font-size: 20px; color: #555;">Starting at 10:00 AM</p>
+      </div>
+  
+      <!-- Add to Calendar Button -->
+      <div style="text-align: center; margin-bottom: 20px;">
+        <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=CodeNEST+Event&dates=20241120T043000Z/20241120T063000Z&details=Join+us+for+the+grand+inauguration+event+at+CodeNEST!&location=NSHM+Knowledge+Campus,+Durgapur&sf=true&output=xml" 
+           target="_blank" style="display: inline-block; padding: 12px 24px; font-size: 16px; color: #fff; background-color: #ff9900; text-decoration: none; border-radius: 50px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+          📅 Add to Google Calendar
+        </a>
+      </div>
+  
+      <!-- QR Code Section with Border -->
+      <div style="text-align: center; margin: 20px 0;">
+        <img src="cid:qrCodeImage" alt="QR Code" style="width: 160px; height: 160px; border: 2px solid #0073e6; padding: 10px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+      </div>
+  
+      <!-- Event Venue Section with Location Icon -->
+      <div style="background-color: #f9f9f9; padding: 20px; border-radius: 10px; margin: 20px 0;">
+        <h4 style="color: #333; font-size: 18px; margin-bottom: 5px;">📍 Event Venue:</h4>
+        <p style="font-size: 16px; color: #555;">Old Seminar Hall,<br> Old B.Tech Building,<br>NSHM Knowledge Campus, Durgapur<br>Via Muchipara Arrah, Durgapur, West Bengal, India</p>
+      </div>
+  
+      <!-- Contact Us Section -->
+      <div style="text-align: center; background-color: #ffffff; padding: 20px; border-radius: 10px;">
+        <p style="font-size: 14px; color: #555;">
+          Have any questions? 📧 Reach us at 
+          <a href="mailto:connectcodenest@gmail.com" style="color: #0073e6; text-decoration: none; font-weight: bold;">connectcodenest@gmail.com</a>.
+        </p>
+      </div>
+  
+      <!-- Footer -->
+      <hr style="border: none; border-top: 1px solid #e0e0e0; margin: 20px 0;">
+      <p style="text-align: center; font-size: 12px; color: #999;">
+        © ${new Date().getFullYear()} CodeNEST. All rights reserved.
+      </p>
+    </div>
     `;
 
     // Send email with QR code attachment
