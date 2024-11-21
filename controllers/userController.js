@@ -229,8 +229,8 @@ exports.verifyUser = async (req, res) => {
         return res.status(200).json({ message: "Duplicate entry", user });
       }
 
-      user.isPresent = true;
-      await user.save();
+      // user.isPresent = true;
+      // await user.save();
 
       res.status(200).json({ message: "User checked in successfully", user });
     });
@@ -322,99 +322,292 @@ exports.sendEmail = async (req, res) => {
 
     // Enhanced HTML template with personalized greeting and improved design
     const emailHtml = `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px; background-color: #f4f4f9;">
+      <div
+      style="
+        font-family: Arial, sans-serif;
+        max-width: 600px;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
+        background-color: #f4f4f9;
+      "
+    >
       <!-- Exciting Header Section -->
-      <div style="text-align: center; background-color: #e60000; padding: 20px; border-radius: 10px 10px 0 0;">
-        <img src="https://codenestnshm.netlify.app/web-app-manifest-192x192.png" alt="CodeNEST Logo" style="width: 80px; height: auto; border-radius: 50%;">
-        <h2 style="color: #fff; font-size: 28px; margin-top: 10px;"> Attention Please!</h2>
+      <div
+        style="
+          text-align: center;
+          background-color: #e60000;
+          padding: 20px;
+          border-radius: 10px 10px 0 0;
+        "
+      >
+        <img
+          src="https://codenestnshm.netlify.app/web-app-manifest-192x192.png"
+          alt="CodeNEST Logo"
+          style="width: 80px; height: auto; border-radius: 50%"
+        />
+        <h2 style="color: #fff; font-size: 28px; margin-top: 10px">
+          Attention Folks!
+        </h2>
       </div>
 
       <!-- Content -->
-      <div style="padding: 20px; background-color: #ffffff; border-radius: 0 0 10px 10px; margin-bottom: 20px; font-family: Arial, sans-serif;">
+      <div
+        style="
+          padding: 20px;
+          background-color: #ffffff;
+          border-radius: 0 0 10px 10px;
+          margin-bottom: 20px;
+          font-family: Arial, sans-serif;
+        "
+      >
         <!-- Greeting -->
-        <p style="font-size: 20px; color: #333; text-align: center; font-weight: bold; margin-bottom: 20px;">
+        <p
+          style="
+            font-size: 20px;
+            color: #333;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 20px;
+          "
+        >
           👋 Hello ${name},
         </p>
-      
+
         <!-- Welcome Message -->
-        <p style="font-size: 16px; color: #555; line-height: 1.8; text-align: justify; margin-bottom: 20px;">
-          Welcome to <strong>CodeNEST</strong>! We’re thrilled to have you onboard. Stay connected with us by joining our official communication group:
+        <p
+          style="
+            font-size: 16px;
+            color: #555;
+            line-height: 1.8;
+            text-align: justify;
+            margin-bottom: 20px;
+          "
+        >
+          You are cordially invited to
+          <strong>CodeNEST's Inauguration Event</strong>! We are thrilled to
+          have you as part of our growing community. Join us as we celebrate the
+          spirit of open-source collaboration and innovation.
         </p>
-      
+
+        <!-- Event Details -->
+        <p
+          style="
+            font-size: 16px;
+            color: #555;
+            line-height: 1.8;
+            text-align: justify;
+            margin-bottom: 20px;
+          "
+        >
+          <strong>Event:</strong> CodeNEST inauguration<br />
+          <strong>When:</strong> 20th November, 2024 at 10:00 AM<br />
+          <strong>Where:</strong> Seminar Hall, Admin Building<br />
+        </p>
+
+        <p
+          style="
+            font-size: 16px;
+            color: #f02929;
+            line-height: 1.8;
+            text-align: center;
+            margin-bottom: 20px;
+          "
+        >
+          <strong>
+            IF YOU ARE COMMING TO THE EVENT, PLEASE RSVP BY CLICKING THE LINK
+            BELOW.</strong
+          >
+        </p>
+
+        <p
+          style="
+            font-size: 16px;
+            color: #0c0b0b;
+            line-height: 1.8;
+            text-align: justify;
+            margin-bottom: 20px;
+          "
+        >
+          <strong>
+            (Note: Use your College Email to fill the RSVP Form.)</strong
+          >
+        </p>
+
+        <!-- RSVP Button -->
+        <div style="text-align: center; margin-bottom: 30px">
+          <a
+            href="https://form.jotform.com/243225270055448"
+            target="_blank"
+            style="
+              display: inline-block;
+              padding: 12px 30px;
+              font-size: 16px;
+              color: #fff;
+              background-color: #1e90ff;
+              text-decoration: none;
+              border-radius: 50px;
+              box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            "
+          >
+            RSVP Now
+          </a>
+        </div>
+
         <!-- Join Group Button -->
-        <div style="text-align: center; margin-bottom: 30px;">
-          <a href="https://join.slack.com/t/codenestopens-znm8263/shared_invite/zt-2tegvnkcl-oxhiXZ5PP8OKQv~5Z3XjJQ" 
-             target="_blank" 
-             style="display: inline-block; padding: 12px 30px; font-size: 16px; color: #fff; background-color: #0073e6; text-decoration: none; border-radius: 50px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+        <div style="text-align: center; margin-bottom: 30px">
+          <a
+            href="https://join.slack.com/t/codenestopens-znm8263/shared_invite/zt-2tegvnkcl-oxhiXZ5PP8OKQv~5Z3XjJQ"
+            target="_blank"
+            style="
+              display: inline-block;
+              padding: 12px 30px;
+              font-size: 16px;
+              color: #fff;
+              background-color: #0073e6;
+              text-decoration: none;
+              border-radius: 50px;
+              box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            "
+          >
             Join Official CodeNEST Group
           </a>
         </div>
-      
-        <!-- Induction Details -->
-        <p style="font-size: 16px; color: #555; line-height: 1.8; text-align: justify; margin-bottom: 20px;">
-          Don’t miss the <strong>Freshman Induction</strong> by <strong>Taruvar Mittal</strong>, Software Engineer at Google, organized in collaboration with <strong>Coding Ninja</strong> and <strong>CodeNEST</strong>. Click below to secure your spot:
-        </p>
-      
-        <!-- Register Button -->
-        <div style="text-align: center; margin-bottom: 30px;">
-          <a href="https://bit.ly/4eCKkfC" 
-             target="_blank" 
-             style="display: inline-block; padding: 12px 30px; font-size: 16px; color: #fff; background-color: #e63946; text-decoration: none; border-radius: 50px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
-            Join Freshman Induction
-          </a>
-        </div>
-      
+
         <!-- Closing Message -->
-        <p style="font-size: 16px; color: #555; line-height: 1.8; text-align: justify;">
-          We look forward to seeing you at the event and embarking on this exciting journey together!
+        <p
+          style="
+            font-size: 16px;
+            color: #555;
+            line-height: 1.8;
+            text-align: justify;
+            margin-bottom: 20px;
+          "
+        >
+          Don’t miss this incredible opportunity to connect, learn, and grow
+          with like-minded individuals. We can’t wait to see you there!
         </p>
-      
+
         <!-- Signature -->
-        <p style="font-size: 16px; color: #333; font-weight: bold; margin: 10px 0;">
-          Regards,
-          <br>Team CodeNEST
+        <p
+          style="
+            font-size: 16px;
+            color: #333;
+            font-weight: bold;
+            margin: 10px 0;
+          "
+        >
+          Warm regards,
+          <br />Team CodeNEST
         </p>
-      
+
         <!-- Note Section -->
-        <div style="margin-top: 30px; padding: 15px; background-color: #f9f9f9; border-radius: 10px;">
-          <p style="font-size: 20px; color: #ff0000;">
-            <strong>Note:</strong> Please carry your laptop to the event if you have one.
+        <div
+          style="
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+          "
+        >
+          <p style="font-size: 20px; color: #ff0000">
+            <strong>Note:</strong> Please carry your laptop to the event if you
+            have one.
           </p>
         </div>
       </div>
-      
+
       <!-- Event Date Highlight with Calendar Icon -->
-      <div style="text-align: center; padding: 30px 20px; background-color: #e6f4ff; border-radius: 10px; margin-bottom: 20px;">
-        <h3 style="color: #e63946; font-size: 32px; font-weight: bold; margin-bottom: 5px;">Save the Date!</h3>
-        <p style="font-size: 26px; font-weight: bold; color: #0073e6;">20th November 2024</p>
-        <p style="font-size: 20px; color: #555;">Starting at 10:00 AM</p>
+      <div
+        style="
+          text-align: center;
+          padding: 30px 20px;
+          background-color: #e6f4ff;
+          border-radius: 10px;
+          margin-bottom: 20px;
+        "
+      >
+        <h3
+          style="
+            color: #e63946;
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 5px;
+          "
+        >
+          Save the Date!
+        </h3>
+        <p style="font-size: 26px; font-weight: bold; color: #0073e6">
+          20th November 2024
+        </p>
+        <p style="font-size: 20px; color: #555">Starting at 10:00 AM</p>
       </div>
-  
+
       <!-- Add to Calendar Button -->
-      <div style="text-align: center; margin-bottom: 20px;">
-        <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=CodeNEST+Event&dates=20241120T043000Z/20241120T063000Z&details=Join+us+for+the+grand+inauguration+event+at+CodeNEST!&location=NSHM+Knowledge+Campus,+Durgapur&sf=true&output=xml" 
-           target="_blank" style="display: inline-block; padding: 12px 24px; font-size: 16px; color: #fff; background-color: #ff9900; text-decoration: none; border-radius: 50px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+      <div style="text-align: center; margin-bottom: 20px">
+        <a
+          href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=CodeNEST+Event&dates=20241120T043000Z/20241120T063000Z&details=Join+us+for+the+grand+inauguration+event+at+CodeNEST!&location=NSHM+Knowledge+Campus,+Durgapur&sf=true&output=xml"
+          target="_blank"
+          style="
+            display: inline-block;
+            padding: 12px 24px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #ff9900;
+            text-decoration: none;
+            border-radius: 50px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          "
+        >
           Add to Google Calendar
         </a>
       </div>
-  
+
       <!-- Event Venue Section with Location Icon -->
-      <div style="background-color: #f9f9f9; padding: 20px; border-radius: 10px; margin: 20px 0;">
-        <h4 style="color: #333; font-size: 18px; margin-bottom: 5px;">📍 Event Venue:</h4>
-        <p style="font-size: 16px; color: #555;">Old Seminar Hall,<br> Old B.Tech Building,<br>NSHM Knowledge Campus, Durgapur<br>Via Muchipara Arrah, Durgapur, West Bengal, India</p>
-      </div>
-  
-      <!-- Contact Us Section -->
-      <div style="text-align: center; background-color: #ffffff; padding: 20px; border-radius: 10px;">
-        <p style="font-size: 14px; color: #555;">
-          Have any questions? <br>📧 Reach us at 
-          <a href="mailto:connectcodenest@gmail.com" style="color: #0073e6; text-decoration: none; font-weight: bold;">connectcodenest@gmail.com</a>.
+      <div
+        style="
+          background-color: #f9f9f9;
+          padding: 20px;
+          border-radius: 10px;
+          margin: 20px 0;
+        "
+      >
+        <h4 style="color: #333; font-size: 18px; margin-bottom: 5px">
+          <strong>(Venue Updated)</strong>
+          <br/><br/>
+          📍 Event Venue:
+        </h4>
+        <p style="font-size: 16px; color: #555">
+          Seminar Hall,<br />
+          Admin Building,<br />
+          NSHM Knowledge Campus, Durgapur<br />Via
+          Muchipara Arrah, Durgapur, West Bengal, India
         </p>
       </div>
-  
+
+      <!-- Contact Us Section -->
+      <div
+        style="
+          text-align: center;
+          background-color: #ffffff;
+          padding: 20px;
+          border-radius: 10px;
+        "
+      >
+        <p style="font-size: 14px; color: #555">
+          Have any questions? <br />📧 Reach us at
+          <a
+            href="mailto:connectcodenest@gmail.com"
+            style="color: #0073e6; text-decoration: none; font-weight: bold"
+            >connectcodenest@gmail.com</a
+          >.
+        </p>
+      </div>
+
       <!-- Footer -->
-      <hr style="border: none; border-top: 1px solid #e0e0e0; margin: 20px 0;">
-      <p style="text-align: center; font-size: 12px; color: #999;">
+      <hr style="border: none; border-top: 1px solid #e0e0e0; margin: 20px 0" />
+      <p style="text-align: center; font-size: 12px; color: #999">
         © ${new Date().getFullYear()} CodeNEST. All rights reserved.
       </p>
     </div>
@@ -424,7 +617,7 @@ exports.sendEmail = async (req, res) => {
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: collegeEmail,
-      subject: `Join CodeNEST Communication Group & Attend Freshman Induction`,
+      subject: `RSVP for CodeNEST!`,
       html: emailHtml,
     };
 
@@ -437,14 +630,15 @@ exports.sendEmail = async (req, res) => {
       .json({ message: "Error sending email. Please try again later." });
   }
 };
+
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 exports.sendBulkEmails = async (req, res) => {
   try {
     // Fetch all users from the API
-    const response = await axios.get(
-      "https://registrationsystem-1a4m.onrender.com/api/users/"
-    );
-    const users = response.data; // Assuming the data is an array of users
+    // const response = await axios.get(
+    //   "https://registrationsystem-1a4m.onrender.com/api/users/"
+    // );
+    // const users = [];
 
     if (!users || users.length === 0) {
       return res
@@ -470,7 +664,7 @@ exports.sendBulkEmails = async (req, res) => {
         console.log(`Email sent to ${collegeEmail}:`, mailResponse.data); // Log success
 
         // Wait for 10 seconds before sending the next email
-        await delay(10000);
+        await delay(5000);
       } catch (emailError) {
         console.error(
           `Error sending email to ${collegeEmail}:`,
@@ -479,11 +673,9 @@ exports.sendBulkEmails = async (req, res) => {
       }
     }
 
-    res
-      .status(200)
-      .json({
-        message: "All emails processed with a 10-second delay between each.",
-      });
+    res.status(200).json({
+      message: "All emails processed with a 5-second delay between each.",
+    });
   } catch (error) {
     console.error("Error fetching users:", error);
     res
@@ -511,12 +703,10 @@ exports.generateQRCode = async (req, res) => {
   try {
     const qrCodeDataUrl = await QRCode.toDataURL(encryptedToken);
 
-    res
-      .status(200)
-      .json({
-        message: "QR code generated successfully",
-        qrCode: qrCodeDataUrl,
-      });
+    res.status(200).json({
+      message: "QR code generated successfully",
+      qrCode: qrCodeDataUrl,
+    });
   } catch (error) {
     console.error("Error generating QR code:", error.message);
     res.status(500).json({ message: "Internal server error" });
@@ -596,7 +786,7 @@ exports.registerUser = async (req, res) => {
     const encryptedToken = encryptToken(token);
 
     // Generate QR Code for the encrypted token
-    const qrCodeDataUrl = await QRCode.toDataURL(encryptedToken);
+    // const qrCodeDataUrl = await QRCode.toDataURL(encryptedToken);
 
     // Save user in the database
     const newUser = new userModel({
@@ -610,7 +800,7 @@ exports.registerUser = async (req, res) => {
       token: encryptedToken,
     });
     await newUser.save();
-    const qrCodeBuffer = Buffer.from(qrCodeDataUrl.split(",")[1], "base64");
+    // const qrCodeBuffer = Buffer.from(qrCodeDataUrl.split(",")[1], "base64");
 
     // Send email with QR code
     const transporter = nodemailer.createTransport({
@@ -622,64 +812,191 @@ exports.registerUser = async (req, res) => {
     });
 
     const emailHtml = `
-            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px; background-color: #f4f4f9;">
+            <div
+      style="
+        font-family: Arial, sans-serif;
+        max-width: 600px;
+        margin: auto;
+        padding: 5px;
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
+        background-color: #f4f4f9;
+      "
+    >
       <!-- Exciting Header Section -->
-      <div style="text-align: center; background-color: #0073e6; padding: 20px; border-radius: 10px 10px 0 0;">
-        <img src="https://codenestnshm.netlify.app/web-app-manifest-192x192.png" alt="CodeNEST Logo" style="width: 80px; height: auto; border-radius: 50%;">
-        <h2 style="color: #fff; font-size: 28px; margin-top: 10px;">🎉 Welcome to CodeNEST! 🎉</h2>
+      <div
+        style="
+          text-align: center;
+          background-color: #0073e6;
+          padding: 20px;
+          border-radius: 10px 10px 0 0;
+        "
+      >
+        <img
+          src="https://codenestnshm.netlify.app/web-app-manifest-192x192.png"
+          alt="CodeNEST Logo"
+          style="width: 80px; height: auto; border-radius: 50%"
+        />
+        <h2 style="color: #fff; font-size: 25px; margin-top: 10px">
+          🎉 Welcome to CodeNEST! 🎉
+        </h2>
       </div>
-  
+
       <!-- Greeting Message with Icon -->
-      <div style="padding: 20px; background-color: #ffffff; border-radius: 0 0 10px 10px; margin-bottom: 20px;">
-        <p style="font-size: 18px; color: #333; text-align: center;">👋 Hello ${name},</p>
-        
-        <p style="font-size: 16px; color: #555; line-height: 1.8;">
-          Thank you for registering at <strong>CodeNEST</strong>! We are thrilled to have you join us for the <strong>grand inauguration</strong> of our club. 
-          Get ready for an exciting day packed with innovation, inspiration, and networking! 🚀
+      <div
+        style="
+          padding: 20px;
+          background-color: #ffffff;
+          border-radius: 0 0 10px 10px;
+          margin-bottom: 20px;
+        "
+      >
+        <p style="font-size: 18px; color: #333; text-align: center">
+          👋 Hello ${name},
         </p>
-        
-        <p style="font-size: 16px; color: #555; line-height: 1.8;">
-          Your personalized QR code is below. Please present it for verification upon arrival. We're excited to meet you in person! 😊
+
+        <p style="font-size: 16px; color: #555; line-height: 1.6">
+          Thank you for joining <strong>CodeNEST</strong>! We are beyond excited
+          to have you as part of our open-source community. Together, we aim to
+          foster creativity, collaboration, and learning. 🚀
+        </p>
+
+        <p style="font-size: 16px; color: #555; line-height: 1.8">
+          To stay connected and up-to-date with our latest projects and events,
+          we invite you to join our official Slack group. Let’s make innovation
+          happen as a team!
         </p>
       </div>
-      
-      <!-- Event Date Highlight with Calendar Icon -->
-      <div style="text-align: center; padding: 30px 20px; background-color: #e6f4ff; border-radius: 10px; margin-bottom: 20px;">
-        <h3 style="color: #e63946; font-size: 32px; font-weight: bold; margin-bottom: 5px;">Save the Date!</h3>
-        <p style="font-size: 26px; font-weight: bold; color: #0073e6;">20th November 2024</p>
-        <p style="font-size: 20px; color: #555;">Starting at 10:00 AM</p>
-      </div>
-  
-      <!-- Add to Calendar Button -->
-      <div style="text-align: center; margin-bottom: 20px;">
-        <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=CodeNEST+Event&dates=20241120T043000Z/20241120T063000Z&details=Join+us+for+the+grand+inauguration+event+at+CodeNEST!&location=NSHM+Knowledge+Campus,+Durgapur&sf=true&output=xml" 
-           target="_blank" style="display: inline-block; padding: 12px 24px; font-size: 16px; color: #fff; background-color: #ff9900; text-decoration: none; border-radius: 50px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-          Add to Google Calendar
+
+      <!-- Join Slack Group Button -->
+      <div style="text-align: center; margin-bottom: 30px">
+        <a
+          href="https://join.slack.com/t/codenestopens-znm8263/shared_invite/zt-2tegvnkcl-oxhiXZ5PP8OKQv~5Z3XjJQ"
+          target="_blank"
+          style="
+            display: inline-block;
+            padding: 12px 30px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #0073e6;
+            text-decoration: none;
+            border-radius: 50px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+          "
+        >
+          Join Group
         </a>
       </div>
-  
-      <!-- QR Code Section with Border -->
-      <div style="text-align: center; margin: 20px 0;">
-        <img src="cid:qrCodeImage" alt="QR Code" style="width: 160px; height: 160px; border: 2px solid #0073e6; padding: 10px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+
+      <!-- Join OSDC Section -->
+      <div
+        style="
+          padding: 20px;
+          background-color: #f9f9f9;
+          border-radius: 10px;
+          margin-bottom: 30px;
+        "
+      >
+        <p
+          style="
+            font-size: 16px;
+            color: #555;
+            line-height: 1.6;
+          "
+        >
+          Are you ready to take your coding journey to the next level? Join
+          <strong>OSSDC</strong> (Open Source Student Developers Club) to become a
+          part of an even larger network of passionate developers. Learn, share,
+          and grow with coders from all around the globe! 🌍
+        </p>
+
+        <div style="text-align: center">
+          <a
+            href="https://www.commudle.com/communities/open-source-student-developers-club"
+            target="_blank"
+            style="
+              display: inline-block;
+              padding: 12px 20px;
+              font-size: 15px;
+              color: #fff;
+              background-color: #34a853;
+              text-decoration: none;
+              border-radius: 50px;
+              box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            "
+          >
+            Join OSSDC Now
+          </a>
+        </div>
       </div>
-  
-      <!-- Event Venue Section with Location Icon -->
-      <div style="background-color: #f9f9f9; padding: 20px; border-radius: 10px; margin: 20px 0;">
-        <h4 style="color: #333; font-size: 18px; margin-bottom: 5px;">📍 Event Venue:</h4>
-        <p style="font-size: 16px; color: #555;">Old Seminar Hall,<br> Old B.Tech Building,<br>NSHM Knowledge Campus, Durgapur<br>Via Muchipara Arrah, Durgapur, West Bengal, India</p>
+
+      <!-- Visit Website Button -->
+      <div style="text-align: center">
+        <p
+          style="
+            font-size: 16px;
+            color: #555;
+            line-height: 1.6;
+            text-align: justify;
+            margin-bottom: 20px;
+          "
+        >
+          Explore more about us and stay updated by visiting our official
+          website.
+        </p>
+        <a
+          href="https://codenestnshm.netlify.app/"
+          target="_blank"
+          style="
+            display: inline-block;
+            padding: 12px 20px;
+            font-size: 15px;
+            color: #fff;
+            background-color: #e63946;
+            text-decoration: none;
+            border-radius: 50px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+          "
+        >
+          Visit Website
+        </a>
       </div>
-  
+
+      <!-- Signature -->
+      <p
+        style="
+          font-size: 16px;
+          color: #333;
+          font-weight: bold;
+          text-align: center;
+          margin-top: 30px;
+        "
+      >
+        Regards,<br />Team CodeNEST
+      </p>
+
       <!-- Contact Us Section -->
-      <div style="text-align: center; background-color: #ffffff; padding: 20px; border-radius: 10px;">
-        <p style="font-size: 14px; color: #555;">
-          Have any questions? <br>📧 Reach us at 
-          <a href="mailto:connectcodenest@gmail.com" style="color: #0073e6; text-decoration: none; font-weight: bold;">connectcodenest@gmail.com</a>.
+      <div
+        style="
+          text-align: center;
+          background-color: #ffffff;
+          padding: 20px;
+          border-radius: 10px;
+        "
+      >
+        <p style="font-size: 14px; color: #555">
+          Have any questions? <br />📧 Reach us at
+          <a
+            href="mailto:connectcodenest@gmail.com"
+            style="color: #0073e6; text-decoration: none; font-weight: bold"
+            >connectcodenest@gmail.com</a
+          >.
         </p>
       </div>
-  
+
       <!-- Footer -->
-      <hr style="border: none; border-top: 1px solid #e0e0e0; margin: 20px 0;">
-      <p style="text-align: center; font-size: 12px; color: #999;">
+      <hr style="border: none; border-top: 1px solid #e0e0e0; margin: 20px 0" />
+      <p style="text-align: center; font-size: 12px; color: #999">
         © ${new Date().getFullYear()} CodeNEST. All rights reserved.
       </p>
     </div>
@@ -690,13 +1007,6 @@ exports.registerUser = async (req, res) => {
       to: collegeEmail,
       subject: `Welcome to CodeNEST, ${name}!`,
       html: emailHtml,
-      attachments: [
-        {
-          filename: "qr-code.png",
-          content: qrCodeBuffer,
-          cid: "qrCodeImage", // same `cid` as in the HTML img src
-        },
-      ],
     };
     await transporter.sendMail(mailOptions);
 

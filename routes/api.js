@@ -5,7 +5,7 @@ const userControllers = require('../controllers/userController');
 router.post('/register', userControllers.registerUser);
 router.get('/users', userControllers.getUsers);
 router.get('/users/:id', userControllers.getUser);
-router.delete('/users/delete/:id', userControllers.deleteUser);
+// router.delete('/users/delete/:id', userControllers.deleteUser);
 router.get('/users/verify/:encryptedToken', userControllers.verifyUser);
 router.get('/registrations/count', userControllers.getRegistrationCount);
 // router.get('/users/scan/:id', userControllers.scanUser);
