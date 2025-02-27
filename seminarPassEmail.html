@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🎉 Your Entry QR Code for the Event! 🚀</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 600px;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
+        background-color: #f4f4f9;
+      }
+      .header {
+        text-align: center;
+        background-color: #e60000;
+        padding: 20px;
+        border-radius: 10px 10px 0 0;
+        color: #fff;
+      }
+      .header img {
+        width: 80px;
+        height: auto;
+        border-radius: 50%;
+      }
+      .content {
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 0 0 10px 10px;
+      }
+      .highlight {
+        font-size: 20px;
+        color: #333;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .red-text {
+        color: red;
+        font-weight: bold;
+        font-size: 18px;
+        text-align: center;
+      }
+      .event-details {
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 10px;
+        margin: 20px 0;
+      }
+      .event-details h3 {
+        color: #e63946;
+        font-size: 24px;
+        text-align: center;
+      }
+      .event-details p {
+        font-size: 16px;
+        color: #333;
+        text-align: center;
+      }
+      .button-container {
+        text-align: center;
+        margin: 20px 0;
+      }
+      .button {
+        display: inline-block;
+        padding: 12px 24px;
+        font-size: 15px;
+        color: #fff;
+        background-color: #0073e6;
+        text-decoration: none;
+        border-radius: 50px;
+        font-weight: bold;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+      .qr-code {
+        text-align: center;
+        margin: 20px 0;
+      }
+      .qr-code img {
+        width: 160px;
+        height: 160px;
+        border: 2px solid #0073e6;
+        padding: 10px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .poster {
+        text-align: center;
+        margin: 20px 0;
+      }
+      .poster img {
+        width: 100%;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+      .note {
+        background-color: #fff3cd;
+        padding: 15px;
+        border-radius: 10px;
+        text-align: center;
+        margin-top: 20px;
+      }
+      .note p {
+        font-size: 16px;
+        color: #856404;
+        font-weight: bold;
+      }
+      .visit-website {
+        text-align: center;
+        margin: 30px 0;
+      }
+      .visit-website p {
+        font-size: 16px;
+        color: #555;
+        line-height: 1.6;
+        text-align: justify;
+        margin-bottom: 20px;
+      }
+      .visit-website a {
+        display: inline-block;
+        padding: 12px 20px;
+        font-size: 15px;
+        color: #fff;
+        background-color: #e63946;
+        text-decoration: none;
+        border-radius: 50px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+      .footer {
+        text-align: center;
+        font-size: 12px;
+        color: #999;
+        /* margin-top: 20px; */
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <div class="header">
+      <img src="https://codenestnshm.netlify.app/web-app-manifest-192x192.png" alt="CodeNEST Logo" />
+      <h2>Your QR Code for Entry! 🚀</h2>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+      <p class="highlight">Dear ${name},</p>
+      <p style="font-size: 17px;">
+        We're excited to welcome you to the <strong>CodeNEST Tech Seminar!</strong>🎉 Please find your <strong>personalized QR code</strong> below. 
+        This will be required for <strong>entry and attendance marking</strong> on the event day.
+      </p>
+
+      <!-- QR Code Section -->
+      <div class="qr-code">
+        <img src="cid:qrCodeImage" alt="QR Code" />
+      </div>
+
+      <p class="red-text">⚠️ Important: Show this QR Code at the entrance for verification.</p>
+
+      <!-- Event Details -->
+      <div class="event-details">
+        <h3>📅 Event Details</h3>
+        <p><strong>🚀 Topic:</strong> Building and Securing Full Stack Apps with Firebase & React</p>
+        <p><strong>🎤 Speaker:</strong> Debajit Mallick</p>
+        <p>Software Engineer @ P360 | Organizer @ GDG Siliguri</p>
+        <p><strong>📅 Date:</strong> 28th February 2025 (Friday)</p>
+        <p><strong>⏰ Time:</strong> 10:00 AM - 1:00 PM</p>
+        <p><strong>📍 Venue:</strong> NSHM Knowledge Campus, Durgapur <br /> Room No: E308, New B.Tech Building</p>
+      </div>
+
+      <!-- Add to Calendar -->
+      <div class="button-container">
+        <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Building+Secure+Full+Stack+Apps&dates=20250228T043000Z/20250228T063000Z&details=Join+Debajit+Mallick+for+an+exciting+seminar+on+Firebase+and+React&location=NSHM+Knowledge+Campus,+Durgapur&sf=true&output=xml" target="_blank" class="button">
+          📅 Add to Google Calendar
+        </a>
+      </div>
+
+      <!-- Event Poster -->
+      <div class="poster" style="max-width: 450px; margin: 20px auto">
+        <img src="https://codenestnshm.netlify.app/SeminarPoster.jpg" alt="Event Poster" />
+      </div>
+
+      <!-- Note for Unregistered Students -->
+      <div class="note">
+        <p>❗ Didn't register yet? No worries! 🚀</p>
+        <p>Join us on the event day and **register on the spot** at the venue! Don't miss out! 🎉</p>
+      </div>
+
+      <!-- Visit Website -->
+      <div class="visit-website">
+        <p>Explore more about us and stay updated by visiting our official website.</p>
+        <a href="https://codenestnshm.netlify.app/" target="_blank">Visit Website</a>
+      </div>
+    </div>
+
+    <!-- Contact Us -->
+    <div style="text-align: center; background-color: #ffffff; padding: 20px; border-radius: 10px;">
+      <p style="font-size: 14px; color: #555">
+        Have any questions? <br />📧 Reach us at
+        <a href="mailto:connectcodenest@gmail.com" style="color: #0073e6; text-decoration: none; font-weight: bold">connectcodenest@gmail.com</a>.
+      </p>
+    </div>
+
+    <!-- Footer -->
+    <hr />
+    <p class="footer">© 2025 CodeNEST. All rights reserved.</p>
+  </body>
+</html>

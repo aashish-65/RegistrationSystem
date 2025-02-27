@@ -225,12 +225,12 @@ exports.verifyUser = async (req, res) => {
         return res.status(404).json({ message: "User not found." });
       }
 
-      if (user.isPresent) {
+      if (user.isSeminarAttendee) {
         return res.status(200).json({ message: "Duplicate entry", user });
       }
 
-      // user.isPresent = true;
-      // await user.save();
+      user.isSeminarAttendee = true;
+      await user.save();
 
       res.status(200).json({ message: "User checked in successfully", user });
     });
@@ -309,7 +309,10 @@ exports.deleteAllUsers = async (req, res) => {
 };
 
 exports.sendEmail = async (req, res) => {
-  const { name, collegeEmail } = req.body;
+  const { name, collegeEmail, token } = req.body;
+
+  const qrCodeDataUrl = await QRCode.toDataURL(token);
+  const qrCodeBuffer = Buffer.from(qrCodeDataUrl.split(",")[1], "base64");
 
   try {
     const transporter = nodemailer.createTransport({
@@ -322,8 +325,14 @@ exports.sendEmail = async (req, res) => {
 
     // Enhanced HTML template with personalized greeting and improved design
     const emailHtml = `
-      <div
-      style="
+    <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🎉 Your Entry QR Code for the Event! 🚀</title>
+    <style>
+      body {
         font-family: Arial, sans-serif;
         max-width: 600px;
         margin: auto;
@@ -331,294 +340,225 @@ exports.sendEmail = async (req, res) => {
         border: 1px solid #e0e0e0;
         border-radius: 10px;
         background-color: #f4f4f9;
-      "
-    >
-      <!-- Exciting Header Section -->
-      <div
-        style="
-          text-align: center;
-          background-color: #e60000;
-          padding: 20px;
-          border-radius: 10px 10px 0 0;
-        "
-      >
-        <img
-          src="https://codenestnshm.netlify.app/web-app-manifest-192x192.png"
-          alt="CodeNEST Logo"
-          style="width: 80px; height: auto; border-radius: 50%"
-        />
-        <h2 style="color: #fff; font-size: 28px; margin-top: 10px">
-          Attention Folks!
-        </h2>
+      }
+      .header {
+        text-align: center;
+        background-color: #e60000;
+        padding: 20px;
+        border-radius: 10px 10px 0 0;
+        color: #fff;
+      }
+      .header img {
+        width: 80px;
+        height: auto;
+        border-radius: 50%;
+      }
+      .content {
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 0 0 10px 10px;
+      }
+      .highlight {
+        font-size: 20px;
+        color: #333;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .red-text {
+        color: red;
+        font-weight: bold;
+        font-size: 18px;
+        text-align: center;
+      }
+      .event-details {
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 10px;
+        margin: 20px 0;
+      }
+      .event-details h3 {
+        color: #e63946;
+        font-size: 24px;
+        text-align: center;
+      }
+      .event-details p {
+        font-size: 16px;
+        color: #333;
+        text-align: center;
+      }
+      .button-container {
+        text-align: center;
+        margin: 20px 0;
+      }
+      .button {
+        display: inline-block;
+        padding: 12px 24px;
+        font-size: 15px;
+        color: #fff;
+        background-color: #0073e6;
+        text-decoration: none;
+        border-radius: 50px;
+        font-weight: bold;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+      .qr-code {
+        text-align: center;
+        margin: 20px 0;
+      }
+      .qr-code img {
+        width: 160px;
+        height: 160px;
+        border: 2px solid #0073e6;
+        padding: 10px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .poster {
+        text-align: center;
+        margin: 20px 0;
+      }
+      .poster img {
+        width: 100%;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+      .note {
+        background-color: #fff3cd;
+        padding: 15px;
+        border-radius: 10px;
+        text-align: center;
+        margin-top: 20px;
+      }
+      .note p {
+        font-size: 16px;
+        color: #856404;
+        font-weight: bold;
+      }
+      .visit-website {
+        text-align: center;
+        margin: 30px 0;
+      }
+      .visit-website p {
+        font-size: 16px;
+        color: #555;
+        line-height: 1.6;
+        text-align: justify;
+        margin-bottom: 20px;
+      }
+      .visit-website a {
+        display: inline-block;
+        padding: 12px 20px;
+        font-size: 15px;
+        color: #fff;
+        background-color: #e63946;
+        text-decoration: none;
+        border-radius: 50px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+      .footer {
+        text-align: center;
+        font-size: 12px;
+        color: #999;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <div class="header">
+      <img src="https://codenestnshm.netlify.app/web-app-manifest-192x192.png" alt="CodeNEST Logo" />
+      <h2>Your QR Code for Entry! 🚀</h2>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+      <p class="highlight">Dear ${name},</p>
+      <p style="font-size: 17px;">
+        We're excited to welcome you to the <strong>CodeNEST Tech Seminar!</strong>🎉 Please find your <strong>personalized QR code</strong> below. 
+        This will be required for <strong>entry and attendance marking</strong> on the event day.
+      </p>
+
+      <!-- QR Code Section -->
+      <div class="qr-code">
+        <img src="cid:qrCodeImage" alt="QR Code" />
       </div>
 
-      <!-- Content -->
-      <div
-        style="
-          padding: 20px;
-          background-color: #ffffff;
-          border-radius: 0 0 10px 10px;
-          margin-bottom: 20px;
-          font-family: Arial, sans-serif;
-        "
-      >
-        <!-- Greeting -->
-        <p
-          style="
-            font-size: 20px;
-            color: #333;
-            text-align: center;
-            font-weight: bold;
-            margin-bottom: 20px;
-          "
-        >
-          👋 Hello ${name},
-        </p>
+      <p class="red-text">⚠️ Important: Show this QR Code at the entrance for verification.</p>
 
-        <!-- Welcome Message -->
-        <p
-          style="
-            font-size: 16px;
-            color: #555;
-            line-height: 1.8;
-            text-align: justify;
-            margin-bottom: 20px;
-          "
-        >
-          You are cordially invited to
-          <strong>CodeNEST's Inauguration Event</strong>! We are thrilled to
-          have you as part of our growing community. Join us as we celebrate the
-          spirit of open-source collaboration and innovation.
-        </p>
-
-        <!-- Event Details -->
-        <p
-          style="
-            font-size: 16px;
-            color: #555;
-            line-height: 1.8;
-            text-align: justify;
-            margin-bottom: 20px;
-          "
-        >
-          <strong>Event:</strong> CodeNEST inauguration<br />
-          <strong>When:</strong> 20th November, 2024 at 10:00 AM<br />
-          <strong>Where:</strong> Seminar Hall, Admin Building<br />
-        </p>
-
-        <p
-          style="
-            font-size: 16px;
-            color: #f02929;
-            line-height: 1.8;
-            text-align: center;
-            margin-bottom: 20px;
-          "
-        >
-          <strong>
-            IF YOU ARE COMMING TO THE EVENT, PLEASE RSVP BY CLICKING THE LINK
-            BELOW.</strong
-          >
-        </p>
-
-        <p
-          style="
-            font-size: 16px;
-            color: #0c0b0b;
-            line-height: 1.8;
-            text-align: justify;
-            margin-bottom: 20px;
-          "
-        >
-          <strong>
-            (Note: Use your College Email to fill the RSVP Form.)</strong
-          >
-        </p>
-
-        <!-- RSVP Button -->
-        <div style="text-align: center; margin-bottom: 30px">
-          <a
-            href="https://form.jotform.com/243225270055448"
-            target="_blank"
-            style="
-              display: inline-block;
-              padding: 12px 30px;
-              font-size: 16px;
-              color: #fff;
-              background-color: #1e90ff;
-              text-decoration: none;
-              border-radius: 50px;
-              box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            "
-          >
-            RSVP Now
-          </a>
-        </div>
-
-        <!-- Join Group Button -->
-        <div style="text-align: center; margin-bottom: 30px">
-          <a
-            href="https://join.slack.com/t/codenestopens-znm8263/shared_invite/zt-2tegvnkcl-oxhiXZ5PP8OKQv~5Z3XjJQ"
-            target="_blank"
-            style="
-              display: inline-block;
-              padding: 12px 30px;
-              font-size: 16px;
-              color: #fff;
-              background-color: #0073e6;
-              text-decoration: none;
-              border-radius: 50px;
-              box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            "
-          >
-            Join Official CodeNEST Group
-          </a>
-        </div>
-
-        <!-- Closing Message -->
-        <p
-          style="
-            font-size: 16px;
-            color: #555;
-            line-height: 1.8;
-            text-align: justify;
-            margin-bottom: 20px;
-          "
-        >
-          Don’t miss this incredible opportunity to connect, learn, and grow
-          with like-minded individuals. We can’t wait to see you there!
-        </p>
-
-        <!-- Signature -->
-        <p
-          style="
-            font-size: 16px;
-            color: #333;
-            font-weight: bold;
-            margin: 10px 0;
-          "
-        >
-          Warm regards,
-          <br />Team CodeNEST
-        </p>
-
-        <!-- Note Section -->
-        <div
-          style="
-            margin-top: 30px;
-            padding: 15px;
-            background-color: #f9f9f9;
-            border-radius: 10px;
-          "
-        >
-          <p style="font-size: 20px; color: #ff0000">
-            <strong>Note:</strong> Please carry your laptop to the event if you
-            have one.
-          </p>
-        </div>
+      <!-- Event Details -->
+      <div class="event-details">
+        <h3>📅 Event Details</h3>
+        <p><strong>🚀 Topic:</strong> Building and Securing Full Stack Apps with Firebase & React</p>
+        <p><strong>🎤 Speaker:</strong> Debajit Mallick</p>
+        <p>Software Engineer @ P360 | Organizer @ GDG Siliguri</p>
+        <p><strong>📅 Date:</strong> 28th February 2025 (Friday)</p>
+        <p><strong>⏰ Time:</strong> 10:00 AM - 1:00 PM</p>
+        <p><strong>📍 Venue:</strong> NSHM Knowledge Campus, Durgapur <br /> Room No: E308, New B.Tech Building</p>
       </div>
 
-      <!-- Event Date Highlight with Calendar Icon -->
-      <div
-        style="
-          text-align: center;
-          padding: 30px 20px;
-          background-color: #e6f4ff;
-          border-radius: 10px;
-          margin-bottom: 20px;
-        "
-      >
-        <h3
-          style="
-            color: #e63946;
-            font-size: 32px;
-            font-weight: bold;
-            margin-bottom: 5px;
-          "
-        >
-          Save the Date!
-        </h3>
-        <p style="font-size: 26px; font-weight: bold; color: #0073e6">
-          20th November 2024
-        </p>
-        <p style="font-size: 20px; color: #555">Starting at 10:00 AM</p>
-      </div>
-
-      <!-- Add to Calendar Button -->
-      <div style="text-align: center; margin-bottom: 20px">
-        <a
-          href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=CodeNEST+Event&dates=20241120T043000Z/20241120T063000Z&details=Join+us+for+the+grand+inauguration+event+at+CodeNEST!&location=NSHM+Knowledge+Campus,+Durgapur&sf=true&output=xml"
-          target="_blank"
-          style="
-            display: inline-block;
-            padding: 12px 24px;
-            font-size: 16px;
-            color: #fff;
-            background-color: #ff9900;
-            text-decoration: none;
-            border-radius: 50px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-          "
-        >
-          Add to Google Calendar
+      <!-- Add to Calendar -->
+      <div class="button-container">
+        <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Building+Secure+Full+Stack+Apps&dates=20250228T043000Z/20250228T063000Z&details=Join+Debajit+Mallick+for+an+exciting+seminar+on+Firebase+and+React&location=NSHM+Knowledge+Campus,+Durgapur&sf=true&output=xml" target="_blank" class="button">
+          📅 Add to Google Calendar
         </a>
       </div>
 
-      <!-- Event Venue Section with Location Icon -->
-      <div
-        style="
-          background-color: #f9f9f9;
-          padding: 20px;
-          border-radius: 10px;
-          margin: 20px 0;
-        "
-      >
-        <h4 style="color: #333; font-size: 18px; margin-bottom: 5px">
-          <strong>(Venue Updated)</strong>
-          <br/><br/>
-          📍 Event Venue:
-        </h4>
-        <p style="font-size: 16px; color: #555">
-          Seminar Hall,<br />
-          Admin Building,<br />
-          NSHM Knowledge Campus, Durgapur<br />Via
-          Muchipara Arrah, Durgapur, West Bengal, India
-        </p>
+      <!-- Event Poster -->
+      <div class="poster" style="max-width: 450px; margin: 20px auto">
+        <img src="https://codenestnshm.netlify.app/SeminarPoster.jpg" alt="Event Poster" />
       </div>
 
-      <!-- Contact Us Section -->
-      <div
-        style="
-          text-align: center;
-          background-color: #ffffff;
-          padding: 20px;
-          border-radius: 10px;
-        "
-      >
-        <p style="font-size: 14px; color: #555">
-          Have any questions? <br />📧 Reach us at
-          <a
-            href="mailto:connectcodenest@gmail.com"
-            style="color: #0073e6; text-decoration: none; font-weight: bold"
-            >connectcodenest@gmail.com</a
-          >.
-        </p>
+      <!-- Note for Unregistered Students -->
+      <div class="note">
+        <p>❗ Didn't register yet? No worries! 🚀</p>
+        <p>Join us on the event day and **register on the spot** at the venue! Don't miss out! 🎉</p>
       </div>
 
-      <!-- Footer -->
-      <hr style="border: none; border-top: 1px solid #e0e0e0; margin: 20px 0" />
-      <p style="text-align: center; font-size: 12px; color: #999">
-        © ${new Date().getFullYear()} CodeNEST. All rights reserved.
+      <!-- Visit Website -->
+      <div class="visit-website">
+        <p>Explore more about us and stay updated by visiting our official website.</p>
+        <a href="https://codenestnshm.netlify.app/" target="_blank">Visit Website</a>
+      </div>
+    </div>
+
+    <!-- Contact Us -->
+    <div style="text-align: center; background-color: #ffffff; padding: 20px; border-radius: 10px;">
+      <p style="font-size: 14px; color: #555">
+        Have any questions? <br />📧 Reach us at
+        <a href="mailto:connectcodenest@gmail.com" style="color: #0073e6; text-decoration: none; font-weight: bold">connectcodenest@gmail.com</a>.
       </p>
     </div>
+
+    <!-- Footer -->
+    <hr />
+    <p class="footer">© 2025 CodeNEST. All rights reserved.</p>
+  </body>
+</html>
+
     `;
+
+    // Send email
+    // const mailOptions = {
+    //   from: process.env.EMAIL_USER,
+    //   to: collegeEmail,
+    //   subject: `RSVP for CodeNEST!`,
+    //   html: emailHtml,
+    // };
 
     // Send email with QR code attachment
     const mailOptions = {
-      from: process.env.EMAIL_USER,
+      from: `"CodeNEST" <${process.env.EMAIL_USER}>`,
       to: collegeEmail,
-      subject: `RSVP for CodeNEST!`,
+      subject: `🎟️ Your CodeNEST Event Pass is Here! Scan Your QR Code for Entry 🚀`,
       html: emailHtml,
+      attachments: [
+        {
+          filename: "qr-code.png",
+          content: qrCodeBuffer,
+          cid: "qrCodeImage",
+        },
+      ],
     };
 
     await transporter.sendMail(mailOptions);
@@ -635,10 +575,10 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 exports.sendBulkEmails = async (req, res) => {
   try {
     // Fetch all users from the API
-    // const response = await axios.get(
-    //   "https://registrationsystem-1a4m.onrender.com/api/users/"
-    // );
-    // const users = [];
+    const response = await axios.get(
+      "https://registrationsystem-1a4m.onrender.com/api/users/"
+    );
+    const users = response.data;
 
     if (!users || users.length === 0) {
       return res
@@ -648,13 +588,14 @@ exports.sendBulkEmails = async (req, res) => {
 
     // Send email to each user with a delay of 10 seconds between each email
     for (const user of users) {
-      const { name, collegeEmail } = user;
+      const { name, collegeEmail, token } = user;
 
       try {
         // Send POST request to mail API
         const mailData = {
           name: name,
           collegeEmail: collegeEmail,
+          token,
         };
 
         const mailResponse = await axios.post(

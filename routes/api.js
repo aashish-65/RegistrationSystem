@@ -11,8 +11,8 @@ router.get('/registrations/count', userControllers.getRegistrationCount);
 // router.get('/users/scan/:id', userControllers.scanUser);
 // router.put('/users/update/:id', userControllers.updateUser);
 // router.delete('/users/delete-all', userControllers.deleteAllUsers);
-// router.post('/send-email', userControllers.sendEmail);
-// router.get('/send-bulk-email', userControllers.sendBulkEmails)
+router.post('/send-email', userControllers.sendEmail);
+router.get('/send-bulk-email', userControllers.sendBulkEmails)
 // router.get('/send-jwt-token', userControllers.sendJWTToken);
 // router.get('/qr-generate/:encryptedToken',userControllers.generateQRCode)
 
