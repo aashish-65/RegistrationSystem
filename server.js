@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const path = require('path');
 const dotenv = require('dotenv');
+const {startPing} = require("./pingServices");
 
 dotenv.config();
 
@@ -27,4 +28,5 @@ app.use('/api', require('./routes/api'));
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
     console.log(`Server started on port ${port}`);
+    startPing("https://registrationsystem-1a4m.onrender.com/api/test");
 });
