@@ -9,7 +9,7 @@ router.get('/users/:id', userControllers.getUser);
 router.get('/users/verify/:encryptedToken', userControllers.verifyUser);
 router.get('/registrations/count', userControllers.getRegistrationCount);
 // router.get('/users/scan/:id', userControllers.scanUser);
-// router.put('/users/update/:id', userControllers.updateUser);
+router.put('/users/update/:id', userControllers.updateUser);
 // router.patch('/users/update/:id', userControllers.updateUserDetails);
 // router.delete('/users/delete-all', userControllers.deleteAllUsers);
 // router.post('/send-email', userControllers.sendEmail);
