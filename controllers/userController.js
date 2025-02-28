@@ -230,8 +230,8 @@ exports.verifyUser = async (req, res) => {
         return res.status(200).json({ message: "Duplicate entry", user });
       }
 
-      user.isSeminarAttendee = true;
-      await user.save();
+      // user.isSeminarAttendee = true;
+      // await user.save();
 
       res.status(200).json({ message: "User checked in successfully", user });
     });

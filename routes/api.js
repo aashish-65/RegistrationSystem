@@ -12,9 +12,9 @@ router.get('/registrations/count', userControllers.getRegistrationCount);
 // router.put('/users/update/:id', userControllers.updateUser);
 router.patch('/users/update/:id', userControllers.updateUserDetails);
 // router.delete('/users/delete-all', userControllers.deleteAllUsers);
-router.post('/send-email', userControllers.sendEmail);
+// router.post('/send-email', userControllers.sendEmail);
 router.post('/send-seminar-pass-email', userControllers.sendSeminarPassEmail);
-router.get('/send-bulk-email', userControllers.sendBulkEmails)
+// router.get('/send-bulk-email', userControllers.sendBulkEmails)
 // router.get('/send-jwt-token', userControllers.sendJWTToken);
 // router.get('/qr-generate/:encryptedToken',userControllers.generateQRCode)
 router.get('/test', userControllers.test);
