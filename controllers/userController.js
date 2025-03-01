@@ -245,19 +245,9 @@ exports.verifyUser = async (req, res) => {
 exports.updateUserDetails = async (req, res) => {
   const { id } = req.params;
   const updatedUser = req.body;
-  const {
-    name,
-    collegeEmail,
-    year,
-    department,
-  } = updatedUser;
+  const { name, collegeEmail, year, department } = updatedUser;
 
-  if (
-    !name ||
-    !collegeEmail ||
-    !year ||
-    !department
-  ) {
+  if (!name || !collegeEmail || !year || !department) {
     return res
       .status(400)
       .json({ message: "Please provide all the required fields" });
@@ -287,6 +277,7 @@ exports.updateUser = async (req, res) => {
   const {
     name,
     collegeEmail,
+    collegeId,
     year,
     department,
     contactNumber,
@@ -296,6 +287,7 @@ exports.updateUser = async (req, res) => {
   if (
     !name ||
     !collegeEmail ||
+    !collegeId ||
     !year ||
     !department ||
     !contactNumber ||
@@ -352,19 +344,17 @@ exports.sendSeminarPassEmail = async (req, res) => {
   const { collegeId } = req.body;
 
   const verifyId = await userModel.findOne({ collegeId });
-    if (!verifyId) {
-      return res
-        .status(400)
-        .json({ message: "User with this ID does not exists" });
-    }
+  if (!verifyId) {
+    return res
+      .status(400)
+      .json({ message: "User with this ID does not exists" });
+  }
 
-    if (verifyId.isSeminarAttendee) {
-      return res
-        .status(400)
-        .json({ message: "User already checked in" });
-    }
+  if (verifyId.isSeminarAttendee) {
+    return res.status(400).json({ message: "User already checked in" });
+  }
 
-    const name = verifyId.name;
+  const name = verifyId.name;
 
   const qrCodeDataUrl = await QRCode.toDataURL(verifyId.token);
   const qrCodeBuffer = Buffer.from(qrCodeDataUrl.split(",")[1], "base64");
