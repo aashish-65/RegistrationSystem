@@ -1,4 +1,4 @@
-# **Registration System - Industry-Level Documentation**
+# **Registration System**
 
 ## **1. Project Overview**
 
